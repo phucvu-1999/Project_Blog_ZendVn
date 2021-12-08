@@ -6,6 +6,7 @@ import Input from "../../components/shared/Input";
 import Button from "../../components/shared/Button";
 
 function LoginPage() {
+  // 1. Sử dụng state để tạo ra 1 object đầu tiên
   const [formData, setFormData] = useState({
     userName: {
       value: "",
@@ -17,10 +18,11 @@ function LoginPage() {
     },
   });
 
+  // 2. Hàm handle sự thay đổi của username input
   const userNameChangeHandler = (e) => {
     setFormData((prevState) => {
       return {
-        ...prevState,
+        ...prevState, // Sử dụng callback funtion sau mỗi lần re-render để có thể giữ lại đc các giá trị ban đầu hoặc state ở trước đó
         userName: {
           value: e.target.value,
           error: "",
@@ -29,6 +31,7 @@ function LoginPage() {
     });
   };
 
+  // 3. Hàm handle sự thay đổi của password
   const passwordChangeHandler = (e) => {
     setFormData((prevState) => {
       return {
@@ -43,7 +46,9 @@ function LoginPage() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // 4. Chia ra 3 trường hợp validate lỗi:
 
+    //  a. Khi username và password cùng có lỗi
     if (
       formData.password.value < 6 &&
       formData.userName.value.trim().length < 8
@@ -51,7 +56,7 @@ function LoginPage() {
       setFormData((prevState) => {
         return {
           userName: {
-            value: prevState.userName.value,
+            value: prevState.userName.value, // Tiếp tục áp dụng tính năng của callback function để có thể giữ lại các state trc đó cũng như khi setState lại có thể nhận được giá trị mới nhất của state, hạn chế tối đa sự rủi ro của async setState
             error: "Invalid username",
           },
           password: {
@@ -63,6 +68,7 @@ function LoginPage() {
       return;
     }
 
+    //  b. Khi username có lỗi
     if (formData.userName.value.trim().length < 8) {
       setFormData((prevState) => {
         return {
@@ -74,6 +80,7 @@ function LoginPage() {
         };
       });
       return;
+      // c. Khi password có lỗi
     } else if (formData.password.value.length < 6) {
       setFormData((prevState) => {
         return {
@@ -97,6 +104,9 @@ function LoginPage() {
       password: {
         value: "",
         error: "",
+        // Khi set lại giá trị của bất cứ State nào luôn trả error về rỗng để:
+        // 1. Sau mỗi lần input change: Error sẽ đc set về rỗng => cải thiện UI
+        // 2. Không cần tạo ra state thứ 2 để handle được error property => Hạn chế việc re-render lại component
       },
     });
   };
