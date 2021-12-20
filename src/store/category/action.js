@@ -1,5 +1,5 @@
 import categoryService from "../../services/category";
-import { hashCategoriesHandler } from "../../helpers";
+import { hashItemsHandler } from "../../helpers";
 
 // ACTION_TYPE
 export const ACT_FETCH_ALL_CATEGORIES = "ACT_FETCH_ALL_CATEGORIES";
@@ -21,7 +21,7 @@ export const actGetAllCategoriesAsync = () => {
       const response = await categoryService.getList();
 
       const categories = response.data;
-      const hashCategoriesById = hashCategoriesHandler(categories);
+      const hashCategoriesById = hashItemsHandler(categories);
 
       dispatch(actGetAllCategoriesSync(hashCategoriesById));
     } catch (err) {

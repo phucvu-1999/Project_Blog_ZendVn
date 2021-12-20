@@ -9,9 +9,11 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import PostDetailPage from "./pages/PostDetailPage";
-import { actGetAllCategoriesAsync } from "./store/category/action";
+import TagPage from "./pages/TagPage";
 import SearchCateGory from "./pages/SearchCategory";
+import { actGetAllCategoriesAsync } from "./store/category/action";
 import { actGetMenuAsync } from "./store/Menu/action";
+import { actFetchAllTagsAsync } from "./store/tags/action";
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -22,6 +24,7 @@ function App() {
     dispatch(actFetchMeAsync());
     dispatch(actGetAllCategoriesAsync());
     dispatch(actGetMenuAsync());
+    dispatch(actFetchAllTagsAsync());
   }, [dispatch]);
 
   return (
@@ -29,6 +32,9 @@ function App() {
       <div className="wrapper-content">
         <Header />
         <Switch>
+          <Route path="/tag/:tagId">
+            <TagPage />
+          </Route>
           <Route path="/post/:slug">
             <PostDetailPage />
           </Route>

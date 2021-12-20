@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import localVi from "dayjs/locale/vi";
 
+import { formatRelativeDate } from "../../helpers/day";
 import ArticleItemAvatar from "./ArticleItemAvatar";
 import ArticleItemSVG from "./ArticletemSVG";
-import { DATE_TEMPLATE } from "../../constants";
-
-dayjs.locale(localVi);
-dayjs.extend(relativeTime);
 
 export default function ArticleItemInfo({
   isShowAvatar,
@@ -16,9 +10,7 @@ export default function ArticleItemInfo({
   author,
   authorLink,
 }) {
-  const dateFormattedObj = dayjs(createdDate);
-  const dateFormatted = dateFormattedObj.format(DATE_TEMPLATE);
-  const timeRelated = dateFormattedObj.fromNow();
+  const { dateFormatted, dateRelative } = formatRelativeDate(createdDate);
 
   return (
     <div className="article-item__info">
@@ -36,7 +28,7 @@ export default function ArticleItemInfo({
           &nbsp;
           <div className="time">
             <ArticleItemSVG />
-            &nbsp;{timeRelated}
+            &nbsp;{dateRelative}
           </div>
         </div>
       </div>

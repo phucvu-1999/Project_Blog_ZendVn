@@ -39,8 +39,8 @@ export const mappingPostDetailData = (post) => {
   };
 };
 
-export const hashCategoriesHandler = (category) => {
-  const hashObj = category.reduce((acc, cur) => {
+export const hashItemsHandler = (items) => {
+  const hashObj = items.reduce((acc, cur) => {
     const key = cur.id;
     acc[key] = { id: cur.id, name: cur.name, slug: cur.slug, lang: cur.lang };
 
@@ -139,3 +139,11 @@ export const mappingJSX = (menu) => (
     {menu.childItems.length > 0 && <ul>{menu.childItems.map(mappingJSX)}</ul>}
   </li>
 );
+
+export const genUserLink = (authorId) => {
+  return `/user/${authorId}`;
+};
+
+export const genPostLink = (slug) => {
+  return `/post/${slug}`;
+};
