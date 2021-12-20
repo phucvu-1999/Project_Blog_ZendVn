@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { actGetAllCategoriesAsync } from "./store/category/action";
+import { actFetchMeAsync } from "./store/auth/actions";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -9,6 +9,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import PostDetailPage from "./pages/PostDetailPage";
+import { actGetAllCategoriesAsync } from "./store/category/action";
+import SearchCateGory from "./pages/SearchCategory";
+import { actGetMenuAsync } from "./store/Menu/action";
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -16,7 +19,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(actFetchMeAsync());
     dispatch(actGetAllCategoriesAsync());
+    dispatch(actGetMenuAsync());
   }, [dispatch]);
 
   return (
@@ -26,6 +31,9 @@ function App() {
         <Switch>
           <Route path="/post/:slug">
             <PostDetailPage />
+          </Route>
+          <Route path="/category/:slug">
+            <SearchCateGory />
           </Route>
           <Route path="/search">
             <SearchPage />

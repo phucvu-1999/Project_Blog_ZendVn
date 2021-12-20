@@ -2,6 +2,7 @@ import { ACT_FETCH_ALL_CATEGORIES } from "./action";
 
 const initialState = {
   hashCategoriesById: {},
+  isFetched: false,
 };
 
 function reducer(categoryState = initialState, action) {
@@ -9,6 +10,7 @@ function reducer(categoryState = initialState, action) {
     return {
       ...categoryState,
       hashCategoriesById: action.payload.hashCategoriesById,
+      isFetched: true,
     };
   }
 

@@ -1,5 +1,5 @@
-import PostDetailAuthor from "./PostDetailAuthor"
-import PostDetailRelatedPosts from "./PostDetailRelatedPosts"
+import PostDetailAuthor from "./PostDetailAuthor";
+import PostDetailRelatedPosts from "./PostDetailRelatedPosts";
 
 function PostDetailSidebar() {
   return (
@@ -8,7 +8,7 @@ function PostDetailSidebar() {
       <div className="spacing" />
       <PostDetailRelatedPosts />
     </div>
-  )
+  );
 }
 
-export default PostDetailSidebar
+export default PostDetailSidebar;

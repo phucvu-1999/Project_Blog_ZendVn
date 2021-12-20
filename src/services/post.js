@@ -15,8 +15,18 @@ const postService = {
   getArticlesPopular() {
     return postService.getList({ page: 2, per_page: 3, orderby: "post_views" });
   },
-  getArticlesGenenral({ currentPage = 1, perPage = 2 } = {}) {
-    return postService.getList({ page: currentPage, per_page: perPage });
+  getArticles({ currentPage = 1, perPage = 2, ...restParams } = {}) {
+    return postService.getList({
+      page: currentPage,
+      per_page: perPage,
+      ...restParams,
+    });
+  },
+  getSearchArticle(params) {
+    return postService.getList({ page: 1, per_page: 100, search: params });
+  },
+  getDetail(slug) {
+    return postService.getList({ slug });
   },
 };
 

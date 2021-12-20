@@ -1,4 +1,4 @@
-import ArticleRelated from "../ArticleItem/ArticleRelated"
+import ArticleRelated from "../ArticleItem/ArticleRelated";
 
 function PostDetailRelatedPosts() {
   return (
@@ -8,7 +8,7 @@ function PostDetailRelatedPosts() {
       <ArticleRelated />
       <ArticleRelated />
     </div>
-  )
+  );
 }
 
-export default PostDetailRelatedPosts
+export default PostDetailRelatedPosts;

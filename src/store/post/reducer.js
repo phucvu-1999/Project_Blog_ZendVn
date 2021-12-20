@@ -1,3 +1,5 @@
+import { ACT_FETCH_POST_DETAIL, ACT_FETCH_RELATED_POSTS } from "./actions";
+
 const initState = {
   articlesLatest: [],
   articlesPopular: [],
@@ -5,6 +7,8 @@ const initState = {
     list: [],
     currentPage: 1,
   },
+  postDetail: null,
+  relatedPostsByAuthor: [],
 };
 
 function reducer(postState = initState, action) {
@@ -22,7 +26,7 @@ function reducer(postState = initState, action) {
     };
   }
 
-  if (action.type === "GENERAL_POSTS") {
+  if (action.type === "ACT_GET_POSTS") {
     return {
       ...postState,
       articlePaging: {
@@ -35,6 +39,20 @@ function reducer(postState = initState, action) {
         totalPages: action.payload.totalPages,
         total: action.payload.total,
       },
+    };
+  }
+
+  if (action.type === ACT_FETCH_POST_DETAIL) {
+    return {
+      ...postState,
+      postDetail: action.payload.post,
+    };
+  }
+
+  if (action.type === ACT_FETCH_RELATED_POSTS) {
+    return {
+      ...postState,
+      relatedPostsByAuthor: action.payload.posts,
     };
   }
 

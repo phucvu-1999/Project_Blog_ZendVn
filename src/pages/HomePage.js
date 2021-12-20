@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import {
   getLastestPostsAsync,
   getPopularPostsAsync,
-  getGeneralPostsAsync,
+  getPostsAsync,
 } from "../store/post/actions";
 
 import ArticleGeneral from "../components/ArticleGeneral";
@@ -16,7 +16,7 @@ function HomePage() {
   useEffect(() => {
     dispatch(getLastestPostsAsync());
     dispatch(getPopularPostsAsync());
-    dispatch(getGeneralPostsAsync());
+    dispatch(getPostsAsync());
   }, [dispatch]);
 
   return (

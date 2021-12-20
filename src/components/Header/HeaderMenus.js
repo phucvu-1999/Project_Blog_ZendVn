@@ -1,60 +1,51 @@
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import { actLogOut } from "../../store/auth/actions";
+// import HeaderMainMenu from "./HeaderMainMenu";
+import { mappingJSX } from "../../helpers";
 
 function HeaderMenus() {
+  const dispatch = useDispatch();
+  const mainMenu = useSelector((state) => state.Menu.menu);
+  const userInfo = useSelector((state) => state.Auth.currentUser);
+
+  const logOutHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(actLogOut());
+  };
+
   return (
     <div className="tcl-col-6">
-      {/* Nav */}
       <div className="header-nav">
         <ul className="header-nav__lists">
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <a href="/">Our Team</a>
-            <ul>
-              <li>
-                <a href="/">Our Team 1</a>
-              </li>
-              <li>
-                <a href="/">Our Team 2</a>
-              </li>
-              <li>
-                <a href="/">Our Team 3</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="/">Contact</a>
-            <ul>
-              <li>
-                <a href="/">Contact 1</a>
-              </li>
-              <li>
-                <a href="/">Contact 2</a>
-              </li>
-              <li>
-                <a href="/">Contact 3</a>
-                <ul>
-                  <li>
-                    <a href="/">Contact 11</a>
-                  </li>
-                  <li>
-                    <a href="/">Contact 12</a>
-                  </li>
-                  <li>
-                    <a href="/">Contact 13</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
+          {mainMenu.map(mappingJSX)}
         </ul>
         <ul className="header-nav__lists">
-          <li className="user">
-            <Link to="/login">
-              <i className="icons ion-person" /> Tài khoản
-            </Link>
-          </li>
+          {userInfo ? (
+            <li className="user">
+              <Link to="/login">
+                <i className="icons ion-person" /> {userInfo.nickname}
+              </Link>
+              <ul>
+                <li>
+                  <a href="/" onClick={logOutHandler}>
+                    Log out
+                  </a>
+                </li>
+              </ul>
+            </li>
+          ) : (
+            <li className="user">
+              <Link to="/login">
+                <i className="icons ion-person" /> Tài khoản
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>

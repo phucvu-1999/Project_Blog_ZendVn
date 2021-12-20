@@ -1,50 +1,36 @@
-import Button from "../components/shared/Button";
+import { useLocation } from "react-router-dom";
+
 import ArticleItem from "../components/ArticleItem";
 import MainTitle from "../components/shared/MainTitle";
 import { getQueryStr } from "../helpers";
+import usePostsPaging from "../hooks/usePostsPaging";
 
 function SearchPage() {
-  const queryStr = getQueryStr("q");
+  const location = useLocation();
+  const queryStr = getQueryStr("q", location);
+  const searchPosts = usePostsPaging(queryStr);
 
   return (
     <div className="articles-list section">
       <div className="tcl-container">
         <MainTitle type="search">
-          10 kết quả tìm kiếm với từ khóa "{queryStr}"
+          {searchPosts.total} kết quả tìm kiếm với từ khóa "{queryStr}"
         </MainTitle>
-
         <div className="tcl-row tcl-jc-center">
-          <div className="tcl-col-12 tcl-col-md-8">
-            <ArticleItem
-              isStyleCard
-              isShowCategoies
-              isShowAvatar={false}
-              isShowDesc={false}
-            />
-          </div>
-          <div className="tcl-col-12 tcl-col-md-8">
-            <ArticleItem
-              isStyleCard
-              isShowCategoies
-              isShowAvatar={false}
-              isShowDesc={false}
-            />
-          </div>
-          <div className="tcl-col-12 tcl-col-md-8">
-            <ArticleItem
-              isStyleCard
-              isShowCategoies
-              isShowAvatar={false}
-              isShowDesc={false}
-            />
-          </div>
+          {searchPosts.list.map((post) => (
+            <div key={post.id} className="tcl-col-12 tcl-col-md-8">
+              <ArticleItem
+                post={post}
+                highlighted={queryStr}
+                isStyleCard
+                isShowCategoies
+                isShowAvatar={false}
+                isShowDesc={false}
+              />
+            </div>
+          ))}
         </div>
-
-        <div className="text-center">
-          <Button type="primary" size="large">
-            Tải thêm
-          </Button>
-        </div>
+        {searchPosts.renderButton()}
       </div>
     </div>
   );

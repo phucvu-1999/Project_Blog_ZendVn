@@ -1,4 +1,4 @@
-import './post-author.css'
+import "./post-author.css";
 
 function PostDetailAuthor() {
   return (
@@ -11,10 +11,12 @@ function PostDetailAuthor() {
       <div className="post-author__nickname">
         <a href="/">John Smith</a>
       </div>
-      <p className="post-author__desc">Lorem ipsum, dolor sit amet conse ctetur adipi sicing elit. Necessitatibus, vel vero vel vero vel vero vel vero!</p>
+      <p className="post-author__desc">
+        Lorem ipsum, dolor sit amet conse ctetur adipi sicing elit.
+        Necessitatibus, vel vero vel vero vel vero vel vero!
+      </p>
     </div>
-
-  )
+  );
 }
 
-export default PostDetailAuthor
+export default PostDetailAuthor;

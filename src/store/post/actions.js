@@ -1,9 +1,11 @@
 import postService from "../../services/post";
-import { mappingData } from "../../helpers";
+import { mappingData, mappingPostDetailData } from "../../helpers";
 // Action Types
 export const LATEST_POSTS = "LATEST_POSTS";
 export const POPULAR_POSTS = "POPULAR_POSTS";
-export const GENERAL_POSTS = "GENERAL_POSTS";
+export const ACT_GET_POSTS = "ACT_GET_POSTS";
+export const ACT_FETCH_POST_DETAIL = "ACT_FETCH_POST_DETAIL";
+export const ACT_FETCH_RELATED_POSTS = "ACT_FETCH_RELATED_POSTS";
 
 // Action
 export const getLastestPostsSync = (posts) => {
@@ -20,19 +22,27 @@ export const getPopularPostsSync = (posts) => {
   };
 };
 
-export const getGeneralPostsSync = ({
-  posts,
-  currentPage,
-  totalPages,
-  total,
-}) => {
+export const getPosts = ({ posts, currentPage, totalPages, total }) => {
   return {
-    type: GENERAL_POSTS,
+    type: ACT_GET_POSTS,
     payload: {
       posts,
       currentPage,
       totalPages,
       total,
+    },
+  };
+};
+
+export const actFetchPostsDetail = (post) => {
+  return { type: ACT_FETCH_POST_DETAIL, payload: { post } };
+};
+
+export const actFetchRelatedPosts = (posts) => {
+  return {
+    type: ACT_FETCH_RELATED_POSTS,
+    payload: {
+      posts,
     },
   };
 };
@@ -61,12 +71,17 @@ export function getPopularPostsAsync() {
   };
 }
 
-export function getGeneralPostsAsync({ currentPage = 1, perPage = 2 } = {}) {
+export function getPostsAsync({
+  currentPage = 1,
+  perPage = 2,
+  ...restParams
+} = {}) {
   return async (dispatch) => {
     try {
-      const response = await postService.getArticlesGenenral({
+      const response = await postService.getArticles({
         perPage,
         currentPage,
+        ...restParams,
       });
 
       const totalPages = +response.headers["x-wp-totalpages"];
@@ -74,9 +89,61 @@ export function getGeneralPostsAsync({ currentPage = 1, perPage = 2 } = {}) {
 
       const posts = response.data.map(mappingData);
 
-      dispatch(getGeneralPostsSync({ posts, currentPage, totalPages, total }));
+      dispatch(getPosts({ posts, currentPage, totalPages, total }));
+
+      return {
+        ok: true,
+      };
+    } catch (err) {
+      console.log(err.message);
+      return {
+        ok: false,
+        error: err.message,
+      };
+    }
+  };
+}
+
+export const actFetchPostsDetailAsync = (slug) => {
+  return async (dispatch) => {
+    try {
+      const response = await postService.getDetail(slug);
+      const post = response.data[0];
+
+      if (!post) {
+        throw new Error("Post Not Found");
+      }
+
+      const postId = post.id;
+      const authorId = post.author;
+
+      dispatch(actFetchPostsDetail(mappingPostDetailData(post)));
+      await dispatch(actFetRelatedPostsAsync({ authorId, postId }));
+      return {
+        ok: true,
+      };
+    } catch (err) {
+      console.log(err.message);
+      return {
+        ok: false,
+      };
+    }
+  };
+};
+
+export const actFetRelatedPostsAsync = ({ authorId, postId }) => {
+  return async (dispatch) => {
+    try {
+      const response = await postService.getList({
+        author: authorId,
+        exclude: postId,
+        per_page: 3,
+      });
+
+      const posts = response.data;
+      dispatch(actFetchRelatedPosts(posts.map(mappingPostDetailData)));
     } catch (err) {
       console.log(err.message);
     }
   };
-}
+};

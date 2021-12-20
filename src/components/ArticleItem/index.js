@@ -14,6 +14,7 @@ export default function ArticleItem({
   isShowCategoies = false,
   isShowAvatar = true,
   post,
+  highlighted,
 }) {
   const classes = cls("article-item", {
     "style-card": isStyleCard,
@@ -39,7 +40,11 @@ export default function ArticleItem({
         )}
         {isShowCategoies && <ArticleItemStats post={post} />}
 
-        <ArticleItemTitle title={title} slugLink={slugLink} />
+        <ArticleItemTitle
+          highlighted={highlighted}
+          title={title}
+          slugLink={slugLink}
+        />
 
         {isShowDesc && <ArticleItemDesc post={post} />}
 

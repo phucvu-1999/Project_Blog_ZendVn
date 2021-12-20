@@ -1,7 +1,7 @@
-import './post-detail.css'
-import PostDetailComments from "./PostDetailComments"
-import PostDetailRichText from "./PostDetailRichText"
-import PostDetailTags from "./PostDetailTags"
+import "./post-detail.css";
+import PostDetailComments from "./PostDetailComments";
+import PostDetailRichText from "./PostDetailRichText";
+import PostDetailTags from "./PostDetailTags";
 
 function PostDetailContent() {
   return (
@@ -13,11 +13,11 @@ function PostDetailContent() {
         <PostDetailRichText />
 
         <PostDetailTags />
-        
+
         <PostDetailComments />
       </div>
     </div>
-  )
+  );
 }
 
-export default PostDetailContent
+export default PostDetailContent;
