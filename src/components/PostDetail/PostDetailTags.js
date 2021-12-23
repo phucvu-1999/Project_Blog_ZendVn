@@ -5,6 +5,10 @@ function PostDetailTags() {
   const postTags = useSelector((state) => state.Post.postDetail.tagsId);
   const tags = useSelector((state) => state.Tags.tags);
 
+  if (!tags | !postTags) {
+    return null;
+  }
+
   return (
     <div className="post-detail__tags">
       <h2>Tags</h2>

@@ -22,8 +22,15 @@ export const actFetchAllTagsAsync = () => {
       const tags = hashItemsHandler(response.data);
 
       dispatch(actFetchAllTags(tags));
+
+      return {
+        ok: true,
+      };
     } catch (err) {
       console.log("Tag Errors", err.message);
+      return {
+        ok: false,
+      };
     }
   };
 };

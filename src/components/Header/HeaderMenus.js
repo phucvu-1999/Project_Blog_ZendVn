@@ -19,12 +19,7 @@ function HeaderMenus() {
   return (
     <div className="tcl-col-6">
       <div className="header-nav">
-        <ul className="header-nav__lists">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          {mainMenu.map(mappingJSX)}
-        </ul>
+        <ul className="header-nav__lists">{mainMenu.map(mappingJSX)}</ul>
         <ul className="header-nav__lists">
           {userInfo ? (
             <li className="user">

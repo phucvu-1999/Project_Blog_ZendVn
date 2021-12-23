@@ -8,11 +8,21 @@ export const ACT_LOGIN_USER = "ACT_LOGIN_USER";
 export const ACT_LOGIN_SUCCESS = "ACT_LOGIN_SUCCESS";
 export const ACT_LOGOUT = "ACT_LOGOUT";
 export const ACT_REGSTER = "ACT_REGSTER";
+export const ACT_SET_TOKEN = "ACT_SET_TOKEN";
 
 // ACTION
 export const actLogOut = () => {
   return {
     type: ACT_LOGOUT,
+  };
+};
+
+export const actSetToken = (token) => {
+  return {
+    type: ACT_SET_TOKEN,
+    payload: {
+      token,
+    },
   };
 };
 
@@ -68,7 +78,7 @@ export const actLoginUserAsync = ({ username, password }) => {
       const response = await authService.login({ username, password });
 
       const token = response.data.token;
-
+      dispatch(actSetToken(token));
       const responseME = await dispatch(actFetchMeAsync(token));
 
       return {

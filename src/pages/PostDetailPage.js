@@ -8,6 +8,7 @@ import PostDetailSidebar from "../components/PostDetail/PostDetailSidebar";
 import IconLoading from "../components/shared/IconLoading";
 import PageNotFound from "../components/PageNotFound/PageNotFound";
 import { actFetchPostsDetailAsync } from "../store/post/actions";
+import { actFetchAllTagsAsync } from "../store/tags/action";
 
 function PostDetailPage() {
   const params = useParams();
@@ -16,11 +17,17 @@ function PostDetailPage() {
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
-    dispatch(actFetchPostsDetailAsync(params.slug)).then((res) => {
+    dispatch(actFetchAllTagsAsync()).then((res) => {
       if (res.ok) {
-        setStatus("success");
+        dispatch(actFetchPostsDetailAsync(params.slug)).then((res) => {
+          if (res.ok) {
+            setStatus("success");
+          } else {
+            setStatus("error");
+          }
+        });
       } else {
-        setStatus("error");
+        return;
       }
     });
   }, [dispatch, params]);

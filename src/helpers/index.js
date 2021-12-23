@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { DEFAULT_AVATAR } from "../constants";
 
 export function getQueryStr(name, location) {
   return new URLSearchParams(location.search).get(name);
@@ -36,6 +37,20 @@ export const mappingPostDetailData = (post) => {
     tagsId: post.tags,
     contentHTML: post.content.rendered,
     commentCount: post.comment_count,
+  };
+};
+
+export const mappingComments = (comment) => {
+  return {
+    id: comment.id,
+    author: comment.author_data,
+    commentContent: comment.content.rendered,
+    parentId: comment.parent,
+    createdAt: comment.date,
+    postId: comment.post,
+    authorAvatar: comment.author_data.avatar || DEFAULT_AVATAR,
+    authorId: comment.author,
+    replyCount: comment.comment_reply_count,
   };
 };
 
@@ -104,6 +119,7 @@ export const mappingUserData = (user) => {
     id: user.id,
     email: user.email,
     nickname: user.nickname,
+    avatar: user.simple_local_avatar?.full || DEFAULT_AVATAR,
   };
 };
 
@@ -146,4 +162,14 @@ export const genUserLink = (authorId) => {
 
 export const genPostLink = (slug) => {
   return `/post/${slug}`;
+};
+
+export const getDefaultCommentPaging = () => {
+  return {
+    currentPage: 0,
+    total: 0,
+    totalPage: 1,
+    list: [],
+    exclude: [],
+  };
 };

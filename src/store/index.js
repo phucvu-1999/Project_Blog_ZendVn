@@ -7,6 +7,7 @@ import postReducer from "./post/reducer";
 import categoryReducer from "./category/reducer";
 import menuReducer from "./Menu/reducer";
 import tagsReducer from "./tags/reducer";
+import commentReducer from "./comments/reducer";
 
 const rootReducer = combineReducers({
   Post: postReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   Category: categoryReducer,
   Menu: menuReducer,
   Tags: tagsReducer,
+  Comments: commentReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk, logger));

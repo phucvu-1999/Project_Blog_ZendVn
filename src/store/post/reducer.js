@@ -1,4 +1,8 @@
-import { ACT_FETCH_POST_DETAIL, ACT_FETCH_RELATED_POSTS } from "./actions";
+import {
+  ACT_FETCH_POST_DETAIL,
+  ACT_FETCH_RELATED_POSTS,
+  ACT_INCREASE_COMMENT_COUNT,
+} from "./actions";
 
 const initState = {
   articlesLatest: [],
@@ -53,6 +57,16 @@ function reducer(postState = initState, action) {
     return {
       ...postState,
       relatedPostsByAuthor: action.payload.posts,
+    };
+  }
+
+  if (action.type === ACT_INCREASE_COMMENT_COUNT) {
+    return {
+      ...postState,
+      postDetail: {
+        ...postState.postDetail,
+        commentCount: postState.postDetail.commentCount + 1,
+      },
     };
   }
 

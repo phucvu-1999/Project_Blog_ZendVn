@@ -1,13 +1,21 @@
 import postService from "../../services/post";
 import { mappingData, mappingPostDetailData } from "../../helpers";
+import { actFetchCommentsAsync } from "../comments/action";
 // Action Types
 export const LATEST_POSTS = "LATEST_POSTS";
 export const POPULAR_POSTS = "POPULAR_POSTS";
 export const ACT_GET_POSTS = "ACT_GET_POSTS";
 export const ACT_FETCH_POST_DETAIL = "ACT_FETCH_POST_DETAIL";
 export const ACT_FETCH_RELATED_POSTS = "ACT_FETCH_RELATED_POSTS";
+export const ACT_INCREASE_COMMENT_COUNT = "ACT_INCREASE_COMMENT_COUNT";
 
 // Action
+export const actIncreaseCommentCount = () => {
+  return {
+    type: ACT_INCREASE_COMMENT_COUNT,
+  };
+};
+
 export const getLastestPostsSync = (posts) => {
   return {
     type: LATEST_POSTS,
@@ -118,7 +126,9 @@ export const actFetchPostsDetailAsync = (slug) => {
       const authorId = post.author;
 
       dispatch(actFetchPostsDetail(mappingPostDetailData(post)));
-      await dispatch(actFetRelatedPostsAsync({ authorId, postId }));
+      dispatch(actFetchCommentsAsync({ postId }));
+      dispatch(actFetRelatedPostsAsync({ authorId, postId }));
+
       return {
         ok: true,
       };

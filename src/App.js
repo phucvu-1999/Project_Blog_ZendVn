@@ -13,7 +13,6 @@ import TagPage from "./pages/TagPage";
 import SearchCateGory from "./pages/SearchCategory";
 import { actGetAllCategoriesAsync } from "./store/category/action";
 import { actGetMenuAsync } from "./store/Menu/action";
-import { actFetchAllTagsAsync } from "./store/tags/action";
 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
@@ -24,7 +23,6 @@ function App() {
     dispatch(actFetchMeAsync());
     dispatch(actGetAllCategoriesAsync());
     dispatch(actGetMenuAsync());
-    dispatch(actFetchAllTagsAsync());
   }, [dispatch]);
 
   return (
